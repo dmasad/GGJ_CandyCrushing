@@ -113,29 +113,26 @@ class Candy(object):
 
         for i in range(10):
         
-        # check if collision
-        rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
-        x = self.position[0]
-        y = self.position[1]
-        r = Rect(x, y, rect_size, rect_size) ####
-        i = r.collidelist(rect_list)
-        if i == -1: # no collision
-            break
+            # check if collision
+            rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
+            x = self.position[0]
+            y = self.position[1]
+            r = Rect(x, y, rect_size, rect_size) ####
+            i = r.collidelist(rect_list)
+            if i == -1: # no collision
+                break
 
-        # change velocity until no collision # set to zero if too much
-        self.change_direction()
+            # change velocity until no collision # set to zero if too much
+            self.change_direction()
 
-        if i > 8: # if too long without finding a good velocity, just stay put
-            self.velocity = (0,0)
-            break
+            if i > 8: # if too long without finding a good velocity, just stay put
+                self.velocity = (0,0)
+                break
 
-        # if no collision move in accordance with velocity and time
-        time_elasped_since_last_move #########################
-        time_threshold_for_moving #########################3
-        if time_elasped_since_last_move > time_threshold_for_moving:
-            new_x = self.position[0] + self.velocity[0] * time_elasped_since_last_move
-            new_y = self.position[1] + self.velocity[1] * time_elasped_since_last_move
-            self.position = (new_x, new_y)
+        # if no collision move in accordance with velocity
+        new_x = self.position[0] + self.velocity[0]
+        new_y = self.position[1] + self.velocity[1]
+        self.position = (new_x, new_y)
 
         # check if alive and return status        
         if self.alive == False:
