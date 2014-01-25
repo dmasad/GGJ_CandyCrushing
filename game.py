@@ -15,14 +15,14 @@ class Game(object):
         '''
 
         # Game constants
-        self.DISPLAY_SIZE = (600,600)
+        self.DISPLAY_SIZE = (1200,800)
         #self.BACKGROUND_COLOR = (10, 200, 10) # Green
         self.BACKGROUND_COLOR = (180, 180, 180) # Gray
 
         self.GAME_TITLE = "Crushing Candy Into Jam"
         self.NUM_CANDIES = 10
         self.MUTATE_CHANCE = 0.01
-        self.CELL_SIZE = 100 # pixels that a cell is wide and tall (assuming square cells)
+        self.CELL_SIZE = 60 # pixels that a cell is wide and tall (assuming square cells)
         self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
 
         self.game_objects = {} # Objects in the game
@@ -45,8 +45,7 @@ class Game(object):
 
     def get_empty_grid_spot(self, rect_size):
         '''
-        Return a random position where a rectangle of size rect_size avoids collisions
-        with 
+        Return a random free position for a rectangle of size rect_size
 
         Args:
             rect_size: The height and width (assume a square) to check
@@ -79,6 +78,8 @@ class Game(object):
                 # (also problem if less than 2 candies)
             genome = Candy.getBabyGenome(parent1, parent2)
         return Candy.Candy(genome, grid_spot, ident, self)
+
+
 
 
 
