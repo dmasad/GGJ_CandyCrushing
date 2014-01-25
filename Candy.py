@@ -8,6 +8,7 @@ GGJ GMU 2014, Crushing Candy into Jam Team
 import random as rnd
 import os
 from pygame import *
+import math
 
 # Setting up some genome stuff
 # ============================
@@ -57,7 +58,7 @@ for attribute in ATTRIBUTES:
 
 class Candy(object):
 
-    def __init__(self, genome, position, ident):
+    def __init__(self, genome, position, ident, game):
         '''
         Create a new Candy
 
@@ -66,6 +67,7 @@ class Candy(object):
             position: Tuple of grid (not pixel) coordinates
             ident: 
         '''
+        self.game = game
         self.ident = ident
         self.genome = genome # dict of attribute: attribute value
         self.position = position
@@ -73,6 +75,13 @@ class Candy(object):
         #self.image = image.load("imagetest/images/face.png").convert()
             ### WILL BE WAY DIFFERENT self.assemble_image()
         self.alive = True
+
+        self.speed = 1.0 ##### BASE THIS ON GENOME
+        self.velocity = (0,0)
+        self.direction = 0 # radians
+        self.change_direction() # and direction
+        
+        
     
     def get_pos(self):
         return self.position
@@ -92,9 +101,43 @@ class Candy(object):
         self.image.blit(eye, (45, 15))
         self.image.blit(mouth, (20, 40))
 
-
-
+    def change_direction(self):
+        # random direction
+        self.direction = rnd.random() * 2 * math.pi
+        # set velocity
+        x_vel = self.speed*math.sin(self.direction)
+        y_vel = self.speed*math.cos(self.direction)
+        self.velocity = (x_vel, y_vel)
+        
     def update_and_get_status(self): # This will handle ongoing animations
+
+        for i in range(10):
+        
+        # check if collision
+        rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
+        x = self.position[0]
+        y = self.position[1]
+        r = Rect(x, y, rect_size, rect_size) ####
+        i = r.collidelist(rect_list)
+        if i == -1: # no collision
+            break
+
+        # change velocity until no collision # set to zero if too much
+        self.change_direction()
+
+        if i > 8: # if too long without finding a good velocity, just stay put
+            self.velocity = (0,0)
+            break
+
+        # if no collision move in accordance with velocity and time
+        time_elasped_since_last_move #########################
+        time_threshold_for_moving #########################3
+        if time_elasped_since_last_move > time_threshold_for_moving:
+            new_x = self.position[0] + self.velocity[0] * time_elasped_since_last_move
+            new_y = self.position[1] + self.velocity[1] * time_elasped_since_last_move
+            self.position = (new_x, new_y)
+
+        # check if alive and return status        
         if self.alive == False:
             return "dead"
         else:

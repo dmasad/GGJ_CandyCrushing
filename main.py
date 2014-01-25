@@ -6,7 +6,7 @@ Crushing candy into jam
 
 import random as rnd
 from pygame import *
-from game import Game
+from Game import Game
 #from Candy import *
 
 

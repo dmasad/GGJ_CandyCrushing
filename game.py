@@ -78,7 +78,7 @@ class Game(object):
             parent1, parent2 = rnd.sample(self.game_objects.values(), 2) 
                 # (also problem if less than 2 candies)
             genome = Candy.getBabyGenome(parent1, parent2)
-        return Candy.Candy(genome, grid_spot, ident)
+        return Candy.Candy(genome, grid_spot, ident, self)
 
 
 
