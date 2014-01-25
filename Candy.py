@@ -39,13 +39,17 @@ for attribute in ATTRIBUTES:
 
 '''
 
-ATTRIBUTES = ["body",
-              "eyes"]
-              #"mouth"]
+ATTRIBUTE_TYPES = ["body", "sound", "behavior"]
+ATTRIBUTES = {}
+ATTRIBUTES["body"] = ["body", "eyes", "mouth"]
+ATTRIBUTES["behavior"] = ["speed", "fear"]
+ATTRIBUTES["sound"] = ["death", "squish"]
 
-GRAPHICS_DICT = {}
+GRAPHICS_DICT = {} # body attribute name : attribute value: graphical object
+SOUNDS_DICT = {}   # sound attribute name: sound object
+BEHAVIORS_DICT = {} # behavior attribute name: attribute value
 # Populate:
-for attribute in ATTRIBUTES:
+for attribute in ATTRIBUTES["body"]:
     GRAPHICS_DICT[attribute] = {}
     path = "graphics/" + attribute + "/"
     for f in os.listdir(path):
@@ -53,6 +57,15 @@ for attribute in ATTRIBUTES:
             i = int(f[0])
             img = image.load(path + f)
             GRAPHICS_DICT[attribute][i] = img
+
+BEHAVIORS_DICT["fear"] = ["friendly", "indifferent", "scared"]
+BEHAVIORS_DICT["speed"] = [1, 2, 4]
+
+for sound_type in ATTRIBUTES["sound"]:
+    SOUNDS_DICT[sound_type] = {}
+    for sound in range(4): ## Assuming 4 sounds per sound type
+        SOUNDS_DICT[sound][0] = [] #### WILL NEED TO POPULATE ELSEWHERE
+
 
 class Candy(object):
 
