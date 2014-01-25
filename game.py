@@ -23,6 +23,7 @@ class Game(object):
         self.GRID_DIM = (6, 10) # (width, height) in cells of candy grid
         self.CELL_SIZE = 58 # pixels that a cell is wide and tall (assuming square cells)
         self.GRID_POS = (0, 0)
+        self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
 
         self.game_objects = {} # Objects in the game
 
@@ -32,6 +33,10 @@ class Game(object):
         '''
 
         # show loading screen for at least 2.25 seconds
+
+        mixer.music.load(self.SOUNDTRACK)
+        mixer.music.play(-1) # play FOREVER!!!
+        
         for ident in range(self.NUM_CANDIES):
             self.game_objects[ident] = self.spawn(ident, initial=True)
 

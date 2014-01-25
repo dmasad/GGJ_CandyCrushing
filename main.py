@@ -6,7 +6,7 @@ Crushing candy into jam
 
 import random as rnd
 from pygame import *
-from Game import Game
+from game import Game
 #from Candy import *
 
 
@@ -62,6 +62,9 @@ def game_loop(game):
     return True
 
 if __name__ == "__main__":
+
+    # start pygame mixer
+    mixer.pre_init()
 
     # start pygame
     init()
