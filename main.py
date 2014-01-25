@@ -82,8 +82,8 @@ if __name__ == "__main__":
     #   update_and_get_status method
     #   blit method    
     game.initialize()
-
-    running = True
+    clock = time.Clock()
+    FPS = 60
     while game_loop(game):
-        pass
+        deltat = clock.tick(FPS)
 
