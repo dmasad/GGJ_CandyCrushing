@@ -26,6 +26,7 @@ class Game(object):
         self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
 
         self.game_objects = {} # Objects in the game
+        self.scorekeeper = Scorekeeper()
 
     def initialize(self):
         '''
@@ -78,6 +79,47 @@ class Game(object):
                 # (also problem if less than 2 candies)
             genome = Candy.getBabyGenome(parent1, parent2)
         return Candy.Candy(genome, grid_spot, ident, self)
+
+
+class Scorekeeper(object):
+    '''
+    Class to track score and draw the jamometer
+    '''
+
+    def __init__(self):
+        self.current_jam = 0
+        self.level = 0
+        self.LEVEL_MAX = [1, 5, 10, 20, 50] # Target jams per level
+        self.max_jam = self.LEVEL_MAX[self.level]
+
+        # Load image assets
+        self.beaker_img = image.load("graphics/jam/beaker.png")
+        self.jam_imgs = [image.load("graphics/jam/jam" + str(i) + ".png")
+                                                        for i in range(1,4)]
+
+
+    def add_jam(self):
+        '''
+        Add 1 candy to the jam
+        '''
+        self.current_jam += 1
+        if self.current_jam >= self.max_jam:
+            self.level += 1
+            self.max_jam = self.LEVEL_MAX[self.level]
+            self.current_jam = 0
+
+    def draw_beaker(self):
+        base_img = Surface((100,650))
+        base_img.blit(self.beaker_img, (0,0))
+        count = int(self.current_jam / (self.max_jam / 12.0))
+        start_y = 650 - (10 + 60) # Top-left of lowest jam bar
+        for i in range(count):
+            img = rnd.choice(self.jam_imgs)
+            img = img.convert()
+            base_img.blit(img, (10, start_y - i*50))
+        return base_img
+
+
 
 
 

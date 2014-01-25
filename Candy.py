@@ -158,6 +158,7 @@ class Candy(object):
         if self.check_collision(mouse_pos):
             print "Mouse clicked on", self.ident
             self.alive = False
+            self.game.scorekeeper.add_jam()
 
     def blit(self, screen):
         screen.blit(self.image, self.get_pos())
