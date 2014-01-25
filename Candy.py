@@ -8,6 +8,9 @@ GGJ GMU 2014, Crushing Candy into Jam Team
 import random as rnd
 from pygame import *
 
+# Setting up some genome stuff
+# ============================
+
 ## ORDER THESE IN DRAW ORDER (back-to-front)
 ATTRIBUTES = ["eyebrows",
               "eyes",

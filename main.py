@@ -12,71 +12,12 @@ from Game import Game
 
 ##### NEED SYSTEM TIME FOR ANIMATION RATE TIMING
 
-DISPLAY_SIZE = (600,600)
-BACKGROUND_COLOR = (10, 200, 10)
-GAME_TITLE = "Crushing Candy Into Jam"
-NUM_CANDIES = 30
-MUTATE_CHANCE = 0.01
-GRID_DIM = (6, 10) # (width, height) in cells of candy grid
-CELL_SIZE = 58 # pixels that a cell is wide and tall (assuming square cells)
-GRID_POS = (0, 0)
-
-
-
-'''
-UTILITY FUNCTIONS
-================================================
-'''
-
-def get_empty_grid_spot(rect_size, obj_list):
-    '''
-    Return a random position where a rectangle of size rect_size avoids collisions
-    with 
-
-    Args:
-        rect_size: The height and width (assume a square) to check
-        obj_list: A list of objects to avoid collisions with
-    '''
-    checking = True
-    rect_list = [obj.get_rect() for obj in obj_list]
-    while checking:
-        x = rnd.randint(0, DISPLAY_SIZE[0]-1)
-        y = rnd.randint(0, DISPLAY_SIZE[1]-1)
-        r = Rect(x, y, rect_size, rect_size)
-        i = r.collidelist(rect_list)
-        if i == -1: 
-            checking = False
-    return (x, y)
-
-
-
-
-def spawn(ident, initial=False): # determines what to do about genome
-    ### If ident not a number, follow special procedure for non-candy game object ######
-    grid_spot = get_empty_grid_spot(58, game_objects.values())
-    if initial == True:
-        genome = get_init_genome()
-    elif initial == False:
-        parent1, parent2 = rnd.sample(game_objects.values(), 2) #### BADLY ASSUMES ALL SUCH OBJECTS ARE CANDIES ######
-            # (also problem if less than 2 candies)
-        genome = getBabyGenome(parent1, parent2)
-    return Candy(genome, grid_spot, ident)
-
 
 '''
 MAIN GAME LOOP
 ==================================================
 
 '''
-
-def initialize():
-
-    # show loading screen for at least 2.25 seconds
-
-    for ident in range(NUM_CANDIES):
-        game_objects[ident] = spawn(ident, initial=True)
-    ### create other game objects with spawn too    
-
 
 def menu_loop(): ## need to somehow stop animation clocks when this is active
     pass #######################################
