@@ -114,9 +114,11 @@ class Candy(object):
             rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
             x = self.position[0]
             y = self.position[1]
-            r = Rect(x, y, self.game.CELL_SIZE, self.game.CELL_SIZE)
+            cell_size = self.game.CELL_SIZE
+            r = Rect(x, y, cell_size, cell_size)
             i = r.collidelist(rect_list)
-            if i == -1: # no collision
+            on_screen = 0 < x < (self.game.DISPLAY_SIZE[0]-cell_size) and 0 < y < (self.game.DISPLAY_SIZE[0]-cell_size)
+            if i == -1 and on_screen: # no collision
                 break
 
             # change velocity until no collision # set to zero if too much
@@ -127,9 +129,10 @@ class Candy(object):
                 break
 
         # if no collision move in accordance with velocity
-        new_x = self.position[0] + self.velocity[0]
-        new_y = self.position[1] + self.velocity[1]
+        new_x = (self.position[0] + self.velocity[0])
+        new_y = (self.position[1] + self.velocity[1])
         self.position = (new_x, new_y)
+
 
         # check if alive and return status        
         if self.alive == False:
