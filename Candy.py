@@ -40,8 +40,8 @@ for attribute in ATTRIBUTES:
 '''
 
 ATTRIBUTES = ["body",
-              "eyes",
-              "mouth"]
+              "eyes"]
+              #"mouth"]
 
 GRAPHICS_DICT = {}
 # Populate:
@@ -52,9 +52,7 @@ for attribute in ATTRIBUTES:
         if f[-3:] == "png": 
             i = int(f[0])
             img = image.load(path + f)
-            img.set_colorkey((255,255,255)) # Set WHITE to transparent
             GRAPHICS_DICT[attribute][i] = img
-
 
 class Candy(object):
 
@@ -91,15 +89,14 @@ class Candy(object):
         Composite an image based on the genome
         '''
         # Get graphics
-        body = GRAPHICS_DICT["body"][self.genome["body"]].convert()
-        eye = GRAPHICS_DICT["eyes"][self.genome["eyes"]].convert()
-        mouth = GRAPHICS_DICT["mouth"][self.genome["mouth"]].convert()
+        body = GRAPHICS_DICT["body"][self.genome["body"]].convert_alpha()
+        eyes = GRAPHICS_DICT["eyes"][self.genome["eyes"]].convert_alpha()
+        #mouth = GRAPHICS_DICT["mouth"][self.genome["mouth"]].convert_alpha()
 
-        self.image = Surface((60,60))
-        self.image.blit(body, (0,0))
-        self.image.blit(eye, (15, 15))
-        self.image.blit(eye, (45, 15))
-        self.image.blit(mouth, (20, 40))
+        self.image = body
+        #self.image.blit(body, (0,0))
+        self.image.blit(eyes, (0,0))
+        #self.image.blit(mouth, (80, 30))
 
     def change_direction(self):
         # random direction

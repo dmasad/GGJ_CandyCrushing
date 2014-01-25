@@ -16,12 +16,14 @@ class Game(object):
 
         # Game constants
         self.DISPLAY_SIZE = (600,600)
-        self.BACKGROUND_COLOR = (10, 200, 10)
+        #self.BACKGROUND_COLOR = (10, 200, 10) # Green
+        self.BACKGROUND_COLOR = (180, 180, 180) # Gray
+
         self.GAME_TITLE = "Crushing Candy Into Jam"
-        self.NUM_CANDIES = 30
+        self.NUM_CANDIES = 10
         self.MUTATE_CHANCE = 0.01
         self.GRID_DIM = (6, 10) # (width, height) in cells of candy grid
-        self.CELL_SIZE = 58 # pixels that a cell is wide and tall (assuming square cells)
+        self.CELL_SIZE = 100 # pixels that a cell is wide and tall (assuming square cells)
         self.GRID_POS = (0, 0)
         self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
 
@@ -38,7 +40,7 @@ class Game(object):
             mixer.music.play(-1) # play FOREVER!!!
         except:
             print "Music-related error"
-            
+
         
         for ident in range(self.NUM_CANDIES):
             self.game_objects[ident] = self.spawn(ident, initial=True)
