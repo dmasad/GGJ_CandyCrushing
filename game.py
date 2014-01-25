@@ -33,9 +33,12 @@ class Game(object):
         '''
 
         # show loading screen for at least 2.25 seconds
-
-        mixer.music.load(self.SOUNDTRACK)
-        mixer.music.play(-1) # play FOREVER!!!
+        try:
+            mixer.music.load(self.SOUNDTRACK)
+            mixer.music.play(-1) # play FOREVER!!!
+        except:
+            print "Music-related error"
+            
         
         for ident in range(self.NUM_CANDIES):
             self.game_objects[ident] = self.spawn(ident, initial=True)
