@@ -96,6 +96,7 @@ class Scorekeeper(object):
         self.beaker_img = image.load("graphics/jam/beaker.png")
         self.jam_imgs = [image.load("graphics/jam/jam" + str(i) + ".png")
                                                         for i in range(1,4)]
+        self.font = font.SysFont("monospace", 24)
 
 
     def add_jam(self):
@@ -109,14 +110,18 @@ class Scorekeeper(object):
             self.current_jam = 0
 
     def draw_beaker(self):
-        base_img = Surface((100,650))
-        base_img.blit(self.beaker_img, (0,0))
+        base_img = Surface((100,800))
+        base_img.blit(self.beaker_img, (0,150))
         count = int(self.current_jam / (self.max_jam / 12.0))
-        start_y = 650 - (10 + 60) # Top-left of lowest jam bar
+        start_y = 800 - (10 + 60) # Top-left of lowest jam bar
         for i in range(count):
             img = rnd.choice(self.jam_imgs)
             img = img.convert()
             base_img.blit(img, (10, start_y - i*50))
+
+        score_text = str(self.current_jam) + " / " + str(self.max_jam)
+        score = self.font.render(score_text, 1, (255,255,0))
+        base_img.blit(score, (10, 100))
         return base_img
 
 

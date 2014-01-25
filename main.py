@@ -58,7 +58,7 @@ def game_loop(game):
     for game_object in game.game_objects.values():
         game_object.blit(screen)
 
-    screen.blit(game.scorekeeper.draw_beaker(), (1100, 150))
+    screen.blit(game.scorekeeper.draw_beaker(), (1100, 0))
     
     display.flip()
     return True
