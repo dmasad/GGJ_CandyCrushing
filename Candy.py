@@ -6,12 +6,15 @@ GGJ GMU 2014, Crushing Candy into Jam Team
 '''
 
 import random as rnd
+import os
 from pygame import *
 
 # Setting up some genome stuff
 # ============================
 
+MUTATE_CHANCE = 0.25
 ## ORDER THESE IN DRAW ORDER (back-to-front)
+'''
 ATTRIBUTES = ["eyebrows",
               "eyes",
               "mouth",
@@ -24,6 +27,7 @@ ATTRIBUTES = ["eyebrows",
               "flee"]
 
 GRAPHICS_DICT = {}
+
 # attribute name : attribute value: graphical object
 ####### Placeholder #######:
 for attribute in ATTRIBUTES:
@@ -32,9 +36,23 @@ for attribute in ATTRIBUTES:
         1: "imagetest/images/face.png"
         }
 
+'''
 
-MUTATE_CHANCE = 0.01
+ATTRIBUTES = ["body",
+              "eyes",
+              "mouth"]
 
+GRAPHICS_DICT = {}
+# Populate:
+for attribute in ATTRIBUTES:
+    GRAPHICS_DICT[attribute] = {}
+    path = "graphics/" + attribute + "/"
+    for f in os.listdir(path):
+        if f[-3:] == "png": 
+            i = int(f[0])
+            img = image.load(path + f)
+            img.set_colorkey((255,255,255)) # Set WHITE to transparent
+            GRAPHICS_DICT[attribute][i] = img
 
 
 class Candy(object):
@@ -51,7 +69,8 @@ class Candy(object):
         self.ident = ident
         self.genome = genome # dict of attribute: attribute value
         self.position = position
-        self.image = image.load("imagetest/images/face.png").convert()
+        self.assemble_image()
+        #self.image = image.load("imagetest/images/face.png").convert()
             ### WILL BE WAY DIFFERENT self.assemble_image()
         self.alive = True
     
@@ -59,9 +78,21 @@ class Candy(object):
         return self.position
 
     def assemble_image(self):
-        for attribute in ATTRIBUTES:
-            graphic = GRAPHICS_DICT[attribute][self.genome[attribute]]
-            draw(graphic, self.position) ######3 NOPE NOPE, SOMETHING WITH BLIT INSTEAD ##############
+        '''
+        Composite an image based on the genome
+        '''
+        # Get graphics
+        body = GRAPHICS_DICT["body"][self.genome["body"]].convert()
+        eye = GRAPHICS_DICT["eyes"][self.genome["eyes"]].convert()
+        mouth = GRAPHICS_DICT["mouth"][self.genome["mouth"]].convert()
+
+        self.image = Surface((60,60))
+        self.image.blit(body, (0,0))
+        self.image.blit(eye, (15, 15))
+        self.image.blit(eye, (45, 15))
+        self.image.blit(mouth, (20, 40))
+
+
 
     def update_and_get_status(self): # This will handle ongoing animations
         if self.alive == False:

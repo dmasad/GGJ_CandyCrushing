@@ -21,9 +21,11 @@ class Circle(object):
 			self.id_num = id_num
 
 		self.image = image.load("images/face.png").convert()
+		self.image.set_colorkey((255,255,255))
 
 		# Composite some eyes onto the image:
 		eye = image.load("images/eye.png").convert()
+		eye.set_colorkey((255,255,255))
 		self.image.blit(eye, (10,10))
 		self.image.blit(eye, (30, 10))
 
