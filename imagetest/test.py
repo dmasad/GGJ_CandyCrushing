@@ -21,6 +21,12 @@ class Circle(object):
 			self.id_num = id_num
 
 		self.image = image.load("images/face.png").convert()
+
+		# Composite some eyes onto the image:
+		eye = image.load("images/eye.png").convert()
+		self.image.blit(eye, (10,10))
+		self.image.blit(eye, (30, 10))
+
 		self.pos_x = int(random.random() * 600)
 		self.pos_y = int(random.random() * 600)
 		self.alive = True
