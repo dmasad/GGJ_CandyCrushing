@@ -114,7 +114,7 @@ class Candy(object):
             rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
             x = self.position[0]
             y = self.position[1]
-            r = Rect(x, y, rect_size, rect_size) ####
+            r = Rect(x, y, self.game.CELL_SIZE, self.game.CELL_SIZE)
             i = r.collidelist(rect_list)
             if i == -1: # no collision
                 break
