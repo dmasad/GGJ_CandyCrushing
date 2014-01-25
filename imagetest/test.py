@@ -57,7 +57,7 @@ if __name__ == "__main__":
 	display.set_caption("Testing")
 	running = True
 
-	circles = [Circle(x) for x in range(10)]
+	circles = [Circle(x) for x in range(30)]
 	while running:
 		for ev in event.get():
 			if ev.type == MOUSEBUTTONUP:

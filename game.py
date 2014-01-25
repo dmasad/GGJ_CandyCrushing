@@ -6,6 +6,7 @@ Crushing candy into jam
 
 import random as rnd
 from pygame import *
+from Candy import *
 
 ##### NEED SYSTEM TIME FOR ANIMATION RATE TIMING
 
@@ -15,98 +16,45 @@ GAME_TITLE = "Crushing Candy Into Jam"
 NUM_CANDIES = 30
 MUTATE_CHANCE = 0.01
 GRID_DIM = (6, 10) # (width, height) in cells of candy grid
-CELL_SIZE = 58 # pixels that a cell is wide and tell (assuming square cells)
+CELL_SIZE = 58 # pixels that a cell is wide and tall (assuming square cells)
 GRID_POS = (0, 0)
 
-## ORDER THESE IN DRAW ORDER (back-to-front)
-ATTRIBUTES = ["eyebrows",
-              "eyes",
-              "mouth",
-              "nose", #?
-              "color",
-              "sparkles",
-              "shape",
-              "noise",
-              "speed",
-              "flee"]
-
-GRAPHICS_DICT = {}
-# attribute name : attribute value: graphical object
-####### Placeholder #######:
-for attribute in ATTRIBUTES:
-    GRAPHICS_DICT[attribute] = {0: "imagetest/images/face.png", 1: "imagetest/images/face.png"}
 
 
+'''
+Candy object and related methods
 
-class Candy(object):
+GGJ GMU 2014, Crushing Candy into Jam Team
 
-    def __init__(self, genome, grid_spot, ident):
-        self.ident = ident
-        self.genome = genome # dict of attribute: attribute value
-        self.grid_spot = grid_spot
-            #### Could lazy type and stick in multiple spots, but that would break other stuff
-        grid_to_object[self.grid_spot] = self
-        
-        self.image = image.load("imagetest/images/face.png").convert()
-            ### WILL BE WAY DIFFERENT self.assemble_image()
-        self.alive = True
-    
-    def get_pos(self):
-        return grid_to_position[self.grid_spot] ### need to account for offset during animations
+'''
 
-    def assemble_image(self):
-        for attribute in ATTRIBUTES:
-            graphic = GRAPHICS_DICT[attribute][self.genome[attribute]]
-            draw(graphic, self.position) ######3 NOPE NOPE, SOMETHING WITH BLIT INSTEAD ##############
 
-    def update_and_get_status(self): # This will handle ongoing animations
-        if self.alive == False:
-            grid_to_object[self.grid_spot] = None
-            return "dead"
-        else:
-            return "alive"
+def get_empty_grid_spot(rect_size, obj_list):
+    '''
+    Return a random position where a rectangle of size rect_size avoids collisions
+    with 
 
-    def check_click(self, mouse_pos):
-        if self.image.get_rect( topleft=self.get_pos() ).collidepoint(mouse_pos):
-            print "Mouse clicked on", self.ident #####
-            self.alive = False
-
-    def blit(self, screen):
-        screen.blit(self.image, self.get_pos())
+    Args:
+        rect_size: The height and width (assume a square) to check
+        obj_list: A list of objects to avoid collisions with
+    '''
+    checking = True
+    rect_list = [obj.get_rect() for obj in obj_list]
+    while checking:
+        x = rnd.randint(0, DISPLAY_SIZE[0]-1)
+        y = rnd.randint(0, DISPLAY_SIZE[1]-1)
+        r = Rect(x, y, rect_size, rect_size)
+        i = r.collidelist(rect_list)
+        if i == -1: 
+            checking = False
+    return (x, y)
 
 
 
-def getBabyGenome(Candy1, Candy2):
-    genome1 = Candy1.genome
-    genome2 = Candy2.genome
-
-    new_genome = {}
-
-    # get from parents
-    for attribute in ATTRIBUTES:
-        new_genome[attribute] = rnd.choice([genome1[attribute], genome2[attribute]])
-    
-    # randomly mutate
-    for attribute in ATTRIBUTES:
-        if rnd.random() < MUTATE_CHANCE:
-            new_genome[attribute] = rnd.choice(GRAPHICS_DICT[attribute].keys())
-
-    return new_genome
-
-def get_init_genome():
-    #### WILL NEED TO REWRITE TO MANUALLY RESTRICT INITIALLY SUPPRESSED ATTRIBUTES ###
-    new_genome = {} # dict of attribute: position value
-    for attribute in ATTRIBUTES:
-        new_genome[attribute] = rnd.choice(GRAPHICS_DICT[attribute].keys())
-    return new_genome
-
-def get_empty_grid_spot():
-    empty_spots = [spot for spot in grid_to_object if grid_to_object[spot]==None]
-    return rnd.choice(empty_spots)
 
 def spawn(ident, initial=False): # determines what to do about genome
     ### If ident not a number, follow special procedure for non-candy game object ######
-    grid_spot = get_empty_grid_spot()
+    grid_spot = get_empty_grid_spot(58, game_objects.values())
     if initial == True:
         genome = get_init_genome()
     elif initial == False:
@@ -115,22 +63,12 @@ def spawn(ident, initial=False): # determines what to do about genome
         genome = getBabyGenome(parent1, parent2)
     return Candy(genome, grid_spot, ident)
 
+
+
 def initialize():
 
     # show loading screen for at least 2.25 seconds
 
-    # populate grid to pixel coordinates dictionary
-    cells_wide, cells_tall = GRID_DIM
-    for x_cell in range(cells_wide):
-        for y_cell in range(cells_tall):
-            x = GRID_POS[0] + x_cell*CELL_SIZE
-            y = GRID_POS[1] + y_cell*CELL_SIZE
-            grid_to_position[(x_cell, y_cell)] = (x, y)
-            grid_to_object[(x_cell, y_cell)] = None
-                # game_objects will put selves in appropriate spot ##########
-    
-    # create game objects and populate grid to game_object dictionary
-                                            ###(objects will take care of) ####
     for ident in range(NUM_CANDIES):
         game_objects[ident] = spawn(ident, initial=True)
     ### create other game objects with spawn too    
@@ -151,8 +89,8 @@ def game_loop():
             for game_object in game_objects.values(): 
                 game_object.check_click(mouse_pos)    
         if ev.type == QUIT:
-            running = False
-
+            return False
+    
     # progress internal event queues for all objects
     dead_object_idents = []
     for game_object in game_objects.values():
@@ -162,17 +100,18 @@ def game_loop():
         ######### Have a way to activate menu here ######
             
     # replenish dead game objects
+    
     for ident in dead_object_idents:
-        grid_to_object[game_objects[ident].grid_spot] = None
         del game_objects[ident]
         game_objects[ident] = spawn(ident)
-
-    # redraw and display everything
+        # redraw and display everything
+    
     screen.blit(background, (0,0))
     for game_object in game_objects.values():
         game_object.blit(screen)
-        display.flip()
-
+    
+    display.flip()
+    return True
 
 if __name__ == "__main__":
 
@@ -184,18 +123,15 @@ if __name__ == "__main__":
     background = Surface(DISPLAY_SIZE, SRCALPHA)
     background.fill(BACKGROUND_COLOR)
     display.set_caption(GAME_TITLE)
-    grid_to_position = {}
     game_objects = {}
     # all game objects need
     #   ident
     #   check_click method
     #   update_and_get_status method
-    #   blit method
-    grid_to_object = {}
-    
+    #   blit method    
     initialize()
 
     running = True
-    while running:
-        game_loop()
+    while game_loop():
+        pass
 
