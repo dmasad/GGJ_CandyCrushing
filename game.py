@@ -102,7 +102,7 @@ class Game(object):
             else:
                 # Game ending 1
                 path = "graphics/splashes/end1.png"
-            menu = SplashScreen(self.screen, path, on_key=lambda: sys.exit(0))
+            menu = SplashScreen(self.screen, path, on_key=self.game_over)
             menu.menu_loop()
 
         if len(self.game_objects) > self.MAX_CANDIES:
@@ -110,7 +110,7 @@ class Game(object):
                 path = "graphics/splashes/loss2.png"
             else:
                 path = "graphics/splashes/end2.png"
-            menu = SplashScreen(self.screen, path, on_key=lambda: sys.exit(0))
+            menu = SplashScreen(self.screen, path, on_key=self.game_over)
             menu.menu_loop()
 
         if rnd.random() < self.spawn_prob:
@@ -136,6 +136,11 @@ class Game(object):
 
     def create_spatter(self, corpse_location):
         self.spatter_list.append(Candy.Spatter(corpse_location))
+
+    def game_over(self):
+        path =  "graphics/splashes/Game-Over.png"
+        gameover = SplashScreen(self.screen, path, on_key=lambda: sys.exit(0))
+        gameover.menu_loop()
         
 
 
