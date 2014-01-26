@@ -5,6 +5,8 @@ Crushing candy into jam
 '''
 
 import random as rnd
+import sys
+
 from pygame import *
 from game import Game
 from menu import Menu
@@ -41,6 +43,7 @@ def game_loop(game):
     # get all mouse clicks and pygame events
     already_got_click = False # I'm only going to get one mouse click
     for ev in event.get():
+        # If the mouse was clicked, find who it was clicked on
         if ev.type == MOUSEBUTTONUP and already_got_click == False:
             already_got_click = True
             mouse_pos = mouse.get_pos()
@@ -49,10 +52,12 @@ def game_loop(game):
                 game_object.check_click(mouse_pos)    
         if ev.type == QUIT:
             return False
+        # Any key brinsg up the Pause menu
         if ev.type == KEYDOWN: # should get any key I think
-            menu = Menu()
-            while menu_loop(menu):
-                deltat = clock.tick(FPS) # or something like this
+            menu = Menu(screen, on_key=lambda: sys.exit(0))
+            menu.menu_loop()
+            #while menu_loop(menu):
+            #    deltat = clock.tick(FPS) # or something like this
     
     # progress internal event queues for all objects
     dead_object_idents = []

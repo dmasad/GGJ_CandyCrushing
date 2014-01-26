@@ -41,6 +41,7 @@ class Game(object):
         try:
             mixer.music.load(self.SOUNDTRACK)
             mixer.music.play(-1) # play FOREVER!!!
+        
         except:
             print "Music-related error"
 
