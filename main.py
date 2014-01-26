@@ -76,6 +76,8 @@ if __name__ == "__main__":
 
     # start pygame mixer
     mixer.pre_init()
+    #mixer.pre_init(frequency=22050, size=-8, channels=2, buffer=2048)
+    # frequency=22050, size=-16, channels=2, buffersize=4096
 
     # start pygame
     init()

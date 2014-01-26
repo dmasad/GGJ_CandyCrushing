@@ -24,8 +24,9 @@ class Game(object):
         self.MAX_CANDIES = 60
         self.MUTATE_CHANCE = 0.01
         self.CELL_SIZE = 60 # pixels that a cell is wide and tall (assuming square cells)
-        self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
-
+        #self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
+        self.SOUNDTRACK = "audio/bardy.MID"
+        
         self.game_objects = {} # Objects in the game
         self.max_id = 0
         self.scorekeeper = Scorekeeper()
