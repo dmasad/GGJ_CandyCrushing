@@ -53,7 +53,7 @@ BEHAVIORS_DICT = {}
 
 # Populate:
 for attribute in ATTRIBUTES:
-    if ATTRIBUTES["attribute"] = "graphics":
+    if ATTRIBUTES[attribute] == "graphics":
         GRAPHICS_DICT[attribute] = {} # attribute : value : image
         path = "graphics/" + attribute + "/"
         for f in os.listdir(path):
@@ -61,16 +61,16 @@ for attribute in ATTRIBUTES:
                 i = int(f[0])
                 img = image.load(path + f)
                 GRAPHICS_DICT[attribute][i] = img
-    if ATTRIBUTES["attribute"] = "behavior":
+    if ATTRIBUTES[attribute] == "behavior":
         pass
-    if ATTRIBUTES["attribute"] = "sound":
-        SOUNDS_DICT["attribute"] = {}
+    if ATTRIBUTES[attribute] == "sound":
+        SOUNDS_DICT[attribute] = {}
         path = "audio/" + attribute + "/"
         for f in os.listdir(path):
             if f[-3:] == "mp3": 
                 i = int(f[0])
                 filename = path + f
-                SOUNDS_DICT["attribute"][filename] = [] #### POPULATE AUDIO OBJ LATER
+                SOUNDS_DICT[attribute][filename] = [] #### POPULATE AUDIO OBJ LATER
                 
 BEHAVIORS_DICT["fear"] = ["friendly", "indifferent", "scared"]
 BEHAVIORS_DICT["speed"] = [1, 2, 4]
@@ -202,7 +202,12 @@ def getBabyGenome(Candy1, Candy2):
     # randomly mutate
     for attribute in ATTRIBUTES:
         if rnd.random() < MUTATE_CHANCE:
-            new_genome[attribute] = rnd.choice(GRAPHICS_DICT[attribute].keys())
+            if ATTRIBUTES[attribute] == "graphics":
+                new_genome[attribute] = rnd.choice(GRAPHICS_DICT[attribute].keys())
+            if ATTRIBUTES[attribute] == "behavior":
+                new_genome[attribute] = rnd.choice(BEHAVIORS_DICT[attribute])
+            if ATTRIBUTES[attribute] == "sound":
+                new_genome[attribute] = rnd.choice(SOUNDS_DICT[attribute].keys())
 
     return new_genome
 
@@ -210,5 +215,12 @@ def get_init_genome():
     #### WILL NEED TO REWRITE TO MANUALLY RESTRICT INITIALLY SUPPRESSED ATTRIBUTES ###
     new_genome = {} # dict of attribute: position value
     for attribute in ATTRIBUTES:
-        new_genome[attribute] = rnd.choice(GRAPHICS_DICT[attribute].keys())
+        if ATTRIBUTES[attribute] == "graphics":
+            new_genome[attribute] = rnd.choice(GRAPHICS_DICT[attribute].keys())
+        if ATTRIBUTES[attribute] == "behavior":
+            new_genome[attribute] = rnd.choice(BEHAVIORS_DICT[attribute])
+        if ATTRIBUTES[attribute] == "sound":
+            new_genome[attribute] = rnd.choice(SOUNDS_DICT[attribute].keys())
+        
     return new_genome
+
