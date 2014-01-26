@@ -20,7 +20,11 @@ class Menu(object):
 
         self.screen = screen
         self.on_key = on_key
-        self.text = text
+        if type(text) is str:
+            self.text = [text]
+        else:
+            self.text = text
+
         self.font = font.SysFont("monospace", 24)
 
     def menu_loop(self):
@@ -40,9 +44,9 @@ class Menu(object):
 
     def display(self):
         base_img = Surface((600,600))
-        
-        menu_text = self.font.render(self.text, 1, (255,255,0))
-        base_img.blit(menu_text, (100, 100))
+        for i, text in enumerate(self.text):
+            menu_text = self.font.render(text, 1, (255,255,0))
+            base_img.blit(menu_text, (100, 100 + 20 * i))
         return base_img
     
 

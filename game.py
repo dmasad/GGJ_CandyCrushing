@@ -1,8 +1,10 @@
 import random as rnd
+import sys
 
 from pygame import *
 
 import Candy
+from menu import Menu
 
 class Game(object):
     '''
@@ -31,7 +33,7 @@ class Game(object):
         self.max_id = 0
         self.scorekeeper = Scorekeeper()
 
-        self.spawn_prob = 1.0/(60*2)
+        self.spawn_prob = 1.0/(5*2)
 
     def initialize(self):
         '''
@@ -82,11 +84,23 @@ class Game(object):
         Check to see whether to spawn a new candy
         '''
         if len(self.game_objects) < 2:
-            print "Oh no, your candies can't breed! You lose!"
-            self.spawn(self.max_id)
+            message = ["Oh no, there aren't enough candies", 
+                    "left to breed!",
+                    "",
+                    "How will you get enough jam now?",
+                    "        You lose!"]
+            menu = Menu(self.screen, text=message, on_key=lambda: sys.exit(0))
+            menu.menu_loop()
+
         if len(self.game_objects) > self.MAX_CANDIES:
-            print "You can't support so many candies! You lose!"
-            raise Exception
+            message = [ "The candy herd's out of control!",
+                        "Aren't you supposed to be",
+                        "crushing them into jam?",
+                        "",
+                        "    You lose!"
+                        ]
+            menu = Menu(self.screen, text=message, on_key=lambda: sys.exit(0))
+            menu.menu_loop()
 
         if rnd.random() < self.spawn_prob:
             self.max_id += 1

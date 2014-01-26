@@ -42,7 +42,7 @@ def game_loop(game):
             return False
         # Any key brinsg up the Pause menu
         if ev.type == KEYDOWN: # should get any key I think
-            menu = Menu(screen, on_key=lambda: sys.exit(0))
+            menu = Menu(screen)
             menu.menu_loop()
             #while menu_loop(menu):
             #    deltat = clock.tick(FPS) # or something like this
@@ -85,6 +85,7 @@ if __name__ == "__main__":
     # Create things you want in the global scope
     game = Game()
     screen = display.set_mode((game.DISPLAY_SIZE[0] + 100, game.DISPLAY_SIZE[1]))
+    game.screen = screen
     background = Surface(game.DISPLAY_SIZE, SRCALPHA)
     background.fill(game.BACKGROUND_COLOR)
     display.set_caption(game.GAME_TITLE)
