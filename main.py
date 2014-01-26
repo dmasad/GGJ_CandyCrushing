@@ -83,8 +83,11 @@ if __name__ == "__main__":
     game.screen = screen
     background = Surface(game.DISPLAY_SIZE, SRCALPHA)
     background.fill(game.BACKGROUND_COLOR)
+    bg_image = image.load("graphics/Game-Board.png").convert()
+    background.blit(bg_image, (0,0))
+    background.blit(bg_image, (800,0))
     display.set_caption(game.GAME_TITLE)
-    splash = SplashScreen(screen, "graphics/Cover.png")
+    splash = SplashScreen(screen, "graphics/Cover2.gif")
     splash.menu_loop()
 
     message = ["Hi there, Candy Herder!",
