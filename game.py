@@ -26,7 +26,10 @@ class Game(object):
         self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
 
         self.game_objects = {} # Objects in the game
+        self.max_id = 0
         self.scorekeeper = Scorekeeper()
+
+        self.spawn_prob = 1.0/60
 
     def initialize(self):
         '''
@@ -47,6 +50,7 @@ class Game(object):
         
         for ident in range(self.NUM_CANDIES):
             self.game_objects[ident] = self.spawn(ident, initial=True)
+            self.max_id += 1
 
     def get_empty_grid_spot(self, rect_size):
         '''
@@ -68,6 +72,17 @@ class Game(object):
             if i == -1: 
                 checking = False
         return (x, y)
+
+
+    def check_spawn(self):
+        '''
+        Check to see whether to spawn a new candy
+        '''
+        if rnd.random() < self.spawn_prob:
+            self.max_id += 1
+            new = self.spawn(self.max_id)
+            print "Spawning"
+            self.game_objects[self.max_id] = new
 
     def spawn(self, ident, initial=False):
         '''

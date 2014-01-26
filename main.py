@@ -48,13 +48,12 @@ def game_loop(game):
             dead_object_idents.append(game_object.ident)
         ######### Have a way to activate menu here ######
             
-    # replenish dead game objects
-    
+    # remove dead game objects
     for ident in dead_object_idents:
         del game.game_objects[ident]
-        game.game_objects[ident] = game.spawn(ident)
+        #game.game_objects[ident] = game.spawn(ident)
         # redraw and display everything
-    
+    game.check_spawn()
     screen.blit(background, (0,0))
     for game_object in game.game_objects.values():
         game_object.blit(screen)
