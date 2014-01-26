@@ -35,6 +35,8 @@ class Game(object):
 
         self.spawn_prob = 1.0/(5*2)
 
+        self.spatter_list = []
+
     def initialize(self):
         '''
         Initialize the game
@@ -123,6 +125,9 @@ class Game(object):
             genome = Candy.getBabyGenome(parent1, parent2)
         return Candy.Candy(genome, grid_spot, ident, self)
 
+    def create_spatter(self, corpse_location):
+        self.spatter_list.append(Candy.Spatter(corpse_location))
+        
 
 
 

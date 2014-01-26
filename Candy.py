@@ -275,3 +275,20 @@ def get_init_genome():
         
     return new_genome
 
+class Spatter(object):
+    def __init__(self, position):
+        self.position = position
+        self.ticks_left = 60
+        self.alive= True
+        img_list = ["graphics/spatter/squish.png","graphics/spatter/splat.png"]
+        self.img = image.load(rnd.choice(img_list)).convert()
+    def blit(self, screen):
+        screen.blit(self.img, self.position)
+    def update_status(self):
+        self.ticks_left -= 1
+        if self.ticks_left <= 0:
+            self.alive = False
+        return self.alive
+
+
+    

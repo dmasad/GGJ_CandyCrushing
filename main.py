@@ -13,8 +13,6 @@ from menu import Menu
 #from Candy import *
 
 
-##### NEED SYSTEM TIME FOR ANIMATION RATE TIMING
-
 
 '''
 MAIN GAME LOOP
@@ -54,19 +52,26 @@ def game_loop(game):
         object_status = game_object.update_and_get_status(mouse_pos)
         if object_status == "dead":
             dead_object_idents.append(game_object.ident)
+    for spatter in game.spatter_list:
+        spatter_status = spatter.update_status()
+        if spatter_status == False: # (dead)
+            game.spatter_list.remove(spatter)
+            del spatter
             
-            
-    # remove dead game objects
+    # remove dead game objects and create splatters
     for ident in dead_object_idents:
+        game.create_spatter(game.game_objects[ident].get_pos())
         del game.game_objects[ident]
-        #game.game_objects[ident] = game.spawn(ident)
-        # redraw and display everything
-    
+        
     game.check_spawn() # Randomly spawn more candies
+
+    # redraw and display everything
     screen.blit(background, (0,0))
+    for spatter in game.spatter_list:
+        spatter.blit(screen)
     for game_object in game.game_objects.values():
         game_object.blit(screen)
-
+    
     screen.blit(game.scorekeeper.draw_beaker(), (1100, 0))
     
     display.flip()
