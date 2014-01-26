@@ -31,9 +31,10 @@ class Game(object):
         
         self.game_objects = {} # Objects in the game
         self.max_id = 0
-        self.scorekeeper = Scorekeeper()
+        self.scorekeeper = Scorekeeper(self)
 
-        self.spawn_prob = 1.0/(5*2)
+        self.spawn_prob = 1.0/(60*2)
+        self.endgame = False # End-game
 
         self.spatter_list = []
 
@@ -86,21 +87,38 @@ class Game(object):
         Check to see whether to spawn a new candy
         '''
         if len(self.game_objects) < 2:
-            message = ["Oh no, there aren't enough candies", 
-                    "left to breed!",
-                    "",
-                    "How will you get enough jam now?",
-                    "        You lose!"]
+            if not self.endgame:
+                # Game loss condition
+                message = ["Oh no, there aren't enough candies", 
+                        "left to breed!",
+                        "",
+                        "How will you get enough jam now?",
+                        "        You lose!"]
+            else:
+                # Game ending 1
+                message = ["Good work, Herder!",
+                            "You win!",
+                            "Now, we aren't gonna",
+                            "need your services anymore, so..."]
             menu = Menu(self.screen, text=message, on_key=lambda: sys.exit(0))
             menu.menu_loop()
 
         if len(self.game_objects) > self.MAX_CANDIES:
-            message = [ "The candy herd's out of control!",
-                        "Aren't you supposed to be",
-                        "crushing them into jam?",
-                        "",
-                        "    You lose!"
-                        ]
+            if not self.endgame:
+                message = [ "The candy herd's out of control!",
+                            "Aren't you supposed to be",
+                            "crushing them into jam?",
+                            "",
+                            "    You lose!"
+                            ]
+            else:
+                message = ["What?!",
+                            "You were supposed to", 
+                            "liquidate them!",
+                            "Instead you've let them",
+                            "break loose!"
+                            ]
+
             menu = Menu(self.screen, text=message, on_key=lambda: sys.exit(0))
             menu.menu_loop()
 
@@ -136,10 +154,11 @@ class Scorekeeper(object):
     Class to track score and draw the jamometer
     '''
 
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
         self.current_jam = 0
         self.level = 0
-        self.LEVEL_MAX = [1, 5, 10, 20, 50] # Target jams per level
+        self.LEVEL_MAX = [1, 5 ]#10, 20, 50] # Target jams per level
         self.max_jam = self.LEVEL_MAX[self.level]
 
         # Load image assets
@@ -156,8 +175,22 @@ class Scorekeeper(object):
         self.current_jam += 1
         if self.current_jam >= self.max_jam:
             self.level += 1
-            self.max_jam = self.LEVEL_MAX[self.level]
-            self.current_jam = 0
+            if self.level < len(self.LEVEL_MAX):
+                self.max_jam = self.LEVEL_MAX[self.level]
+                self.current_jam = 0
+            elif not self.game.endgame: # End game scenario
+                message = ["Good job, Candy Herder!",
+                            "Now we're gonna need you",
+                            "to go ahead and liquidate",
+                            "your herd.",
+                            "",
+                            "Good job!"
+                            ]
+                menu = Menu(self.game.screen, text=message)
+                menu.menu_loop()
+                self.game.endgame = True
+
+
 
     def draw_beaker(self):
         base_img = Surface((100,800))

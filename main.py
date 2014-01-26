@@ -94,6 +94,15 @@ if __name__ == "__main__":
     background = Surface(game.DISPLAY_SIZE, SRCALPHA)
     background.fill(game.BACKGROUND_COLOR)
     display.set_caption(game.GAME_TITLE)
+
+    message = ["Hi there, Candy Herder!",
+               "Here's your candy herd!",
+               "Choose which candies to crush into",
+               "jam to fill up your Jamometer!"]
+    menu = Menu(screen, message)
+    menu.menu_loop()
+
+
     #game_objects = {}
     # all game objects need
     #   ident
