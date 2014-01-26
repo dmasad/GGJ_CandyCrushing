@@ -7,6 +7,7 @@ Crushing candy into jam
 import random as rnd
 from pygame import *
 from game import Game
+from menu import Menu
 #from Candy import *
 
 
@@ -19,8 +20,18 @@ MAIN GAME LOOP
 
 '''
 
-def menu_loop(): ## need to somehow stop animation clocks when this is active
-    pass #######################################
+def menu_loop(menu):
+
+    # draw and display menu
+    screen.blit(menu.display(), (0,0))
+    display.flip()
+
+    for ev in event.get():
+        if ev.type == QUIT:
+            return False ##### THIS WON'T QUIT #####
+        if ev.type == KEYDOWN:
+            return False
+    return True
 
 def game_loop(game):
     '''
@@ -38,6 +49,10 @@ def game_loop(game):
                 game_object.check_click(mouse_pos)    
         if ev.type == QUIT:
             return False
+        if ev.type == KEYDOWN: # should get any key I think
+            menu = Menu()
+            while menu_loop(menu):
+                deltat = clock.tick(FPS) # or something like this
     
     # progress internal event queues for all objects
     dead_object_idents = []
@@ -46,7 +61,7 @@ def game_loop(game):
         object_status = game_object.update_and_get_status(mouse_pos)
         if object_status == "dead":
             dead_object_idents.append(game_object.ident)
-        ######### Have a way to activate menu here ######
+            
             
     # remove dead game objects
     for ident in dead_object_idents:

@@ -67,7 +67,7 @@ for attribute in ATTRIBUTES:
         SOUNDS_DICT[attribute] = {}
         path = "audio/" + attribute + "/"
         for f in os.listdir(path):
-            if f[-3:] == "mp3": 
+            if f[-3:] == "mp3":  ##### supposed to be ogg / wav ? #####
                 i = int(f[0])
                 filename = path + f
                 SOUNDS_DICT[attribute][filename] = [] #### POPULATE AUDIO OBJ LATER
