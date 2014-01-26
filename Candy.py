@@ -113,15 +113,17 @@ class Candy(object):
         '''
         # Get graphics
         body = GRAPHICS_DICT["body"][self.genome["body"]].convert_alpha()
-        body = transform.smoothscale(body, (self.game.CELL_SIZE, self.game.CELL_SIZE))
         eyes = GRAPHICS_DICT["eyes"][self.genome["eyes"]].convert_alpha()
+        mouth = GRAPHICS_DICT["mouth"][self.genome["mouth"]].convert_alpha()
+
+        body = transform.smoothscale(body, (self.game.CELL_SIZE, self.game.CELL_SIZE))
         eyes = transform.smoothscale(eyes, (self.game.CELL_SIZE, self.game.CELL_SIZE))
-        #mouth = GRAPHICS_DICT["mouth"][self.genome["mouth"]].convert_alpha()
+        mouth = transform.smoothscale(mouth, (self.game.CELL_SIZE, self.game.CELL_SIZE))
+        
 
         self.image = body
-        #self.image.blit(body, (0,0))
         self.image.blit(eyes, (0,0))
-        #self.image.blit(mouth, (80, 30))
+        self.image.blit(mouth, (0,0))
 
     def change_direction(self):
         # random direction
