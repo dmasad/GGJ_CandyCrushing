@@ -30,7 +30,6 @@ def game_loop(game):
         if ev.type == MOUSEBUTTONUP and already_got_click == False:
             already_got_click = True
             mouse_pos = mouse.get_pos()
-            print mouse_pos ###
             for game_object in game.game_objects.values(): 
                 game_object.check_click(mouse_pos)    
         if ev.type == QUIT:
@@ -98,7 +97,7 @@ if __name__ == "__main__":
     splash = SplashScreen(screen, "graphics/splashes/Cover3.png")
     splash.menu_loop()
 
-    menu = SplashScreen(screen, "graphics/splashes/Cover.png")
+    menu = SplashScreen(screen, "graphics/splashes/Open-Text.png")
     menu.menu_loop()
 
 
