@@ -95,14 +95,10 @@ if __name__ == "__main__":
     background.blit(bg_image, (0,0))
     background.blit(bg_image, (800,0))
     display.set_caption(game.GAME_TITLE)
-    splash = SplashScreen(screen, "graphics/splashes/Cover2.gif")
+    splash = SplashScreen(screen, "graphics/splashes/Cover3.png")
     splash.menu_loop()
 
-    message = ["Hi there, Candy Herder!",
-               "Here's your candy herd!",
-               "Choose which candies to crush into",
-               "jam to fill up your Jamometer!"]
-    menu = Menu(screen, message)
+    menu = SplashScreen(screen, "graphics/splashes/Cover.png")
     menu.menu_loop()
 
 
