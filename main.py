@@ -10,16 +10,6 @@ import sys
 from pygame import *
 from game import Game
 from menu import Menu
-#from Candy import *
-
-
-
-'''
-MAIN GAME LOOP
-==================================================
-
-'''
-
 
 def game_loop(game):
     '''
