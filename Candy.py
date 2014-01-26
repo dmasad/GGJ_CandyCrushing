@@ -97,7 +97,7 @@ class Candy(object):
             ### WILL BE WAY DIFFERENT self.assemble_image()
         self.alive = True
 
-        self.speed = 1.0 ##### BASE THIS ON GENOME
+        self.speed = self.genome["speed"]
         self.velocity = (0,0)
         self.direction = 0 # radians
         self.change_direction() # and direction
@@ -132,7 +132,7 @@ class Candy(object):
         self.velocity = (x_vel, y_vel)
     
 
-    def move_random(self, mouse_coords):
+    def move_random(self):
         '''
         Move around randomly
         '''
@@ -151,34 +151,59 @@ class Candy(object):
             else:
                 self.change_direction()
 
-    def update_and_get_status(self): # This will handle ongoing animations
-        self.move_random(None)
-        '''
-        for i in range(10):
-        
-            # check if collision
-            rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
-            x = self.position[0]
-            y = self.position[1]
-            cell_size = self.game.CELL_SIZE
-            r = Rect(x, y, cell_size, cell_size)
-            i = r.collidelist(rect_list)
-            on_screen = 0 < x < (self.game.DISPLAY_SIZE[0]-cell_size) and 0 < y < (self.game.DISPLAY_SIZE[0]-cell_size)
-            if i == -1 and on_screen: # no collision
-                break
+    def move_to_mouse(self, mouse_coords):
+        dy = mouse_coords[1] - self.position[1]
+        dx = mouse_coords[0] - self.position[0]
+        v = math.sqrt(dy**2 + dx**2)
 
-            # change velocity until no collision # set to zero if too much
-            self.change_direction()
+        x_vel = (dx / v) * self.speed
+        y_vel = (dy / v) * self.speed
+        self.velocity = (x_vel, y_vel)
 
-            if i > 8: # if too long without finding a good velocity, just stay put
-                self.velocity = (0,0)
-                break
+        rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
 
-        # if no collision move in accordance with velocity
         new_x = (self.position[0] + self.velocity[0])
         new_y = (self.position[1] + self.velocity[1])
-        self.position = (new_x, new_y)
-        '''
+        cell_size = self.game.CELL_SIZE
+        r = Rect(new_x, new_y, cell_size, cell_size)
+        i = r.collidelist(rect_list)
+        on_screen = 0 < new_x < (self.game.DISPLAY_SIZE[0]-cell_size) and 0 < new_y < (self.game.DISPLAY_SIZE[1]-cell_size)
+        if i == -1 and on_screen: # no collision
+            self.position = (new_x, new_y)
+            return
+        else:
+            self.move_random()
+
+    def move_awayfrom_mouse(self, mouse_coords):
+        dy = mouse_coords[1] - self.position[1]
+        dx = mouse_coords[0] - self.position[0]
+        v = math.sqrt(dy**2 + dx**2)
+
+        x_vel = -(dx / v) * self.speed
+        y_vel = -(dy / v) * self.speed
+        self.velocity = (x_vel, y_vel)
+
+        rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
+
+        new_x = (self.position[0] + self.velocity[0])
+        new_y = (self.position[1] + self.velocity[1])
+        cell_size = self.game.CELL_SIZE
+        r = Rect(new_x, new_y, cell_size, cell_size)
+        i = r.collidelist(rect_list)
+        on_screen = 0 < new_x < (self.game.DISPLAY_SIZE[0]-cell_size) and 0 < new_y < (self.game.DISPLAY_SIZE[1]-cell_size)
+        if i == -1 and on_screen: # no collision
+            self.position = (new_x, new_y)
+            return
+        else:
+            self.move_random()
+
+    def update_and_get_status(self, mouse_pos): # This will handle ongoing animations
+        if self.genome["fear"] == "indifferent":
+            self.move_random()
+        elif self.genome["fear"] == "friendly":
+            self.move_to_mouse(mouse_pos)
+        elif self.genome["fear"] == "scared":
+            self.move_awayfrom_mouse(mouse_pos)
 
         # check if alive and return status        
         if self.alive == False:

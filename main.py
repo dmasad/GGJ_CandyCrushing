@@ -41,8 +41,9 @@ def game_loop(game):
     
     # progress internal event queues for all objects
     dead_object_idents = []
+    mouse_pos = mouse.get_pos()
     for game_object in game.game_objects.values():
-        object_status = game_object.update_and_get_status()
+        object_status = game_object.update_and_get_status(mouse_pos)
         if object_status == "dead":
             dead_object_idents.append(game_object.ident)
         ######### Have a way to activate menu here ######
