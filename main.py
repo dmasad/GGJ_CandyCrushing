@@ -37,7 +37,8 @@ def game_loop(game):
             return False
         # Any key brinsg up the Pause menu
         if ev.type == KEYDOWN: # should get any key I think
-            menu = Menu(screen)
+            #menu = Menu(screen)
+            menu = SplashScreen(screen, "graphics/splashes/Pause-Screen.png")
             menu.menu_loop()
             #while menu_loop(menu):
             #    deltat = clock.tick(FPS) # or something like this
@@ -94,7 +95,7 @@ if __name__ == "__main__":
     background.blit(bg_image, (0,0))
     background.blit(bg_image, (800,0))
     display.set_caption(game.GAME_TITLE)
-    splash = SplashScreen(screen, "graphics/Cover2.gif")
+    splash = SplashScreen(screen, "graphics/splashes/Cover2.gif")
     splash.menu_loop()
 
     message = ["Hi there, Candy Herder!",

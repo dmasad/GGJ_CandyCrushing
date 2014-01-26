@@ -30,7 +30,7 @@ class Game(object):
         #self.BACKGROUND_COLOR = (10, 200, 10) # Green
         self.BACKGROUND_COLOR = (180, 180, 180) # Gray
 
-        self.GAME_TITLE = "Crushing Candy Into Jam"
+        self.GAME_TITLE = "Candy Herder"
         self.START_CANDIES = 10
         self.MAX_CANDIES = 60
         self.MUTATE_CHANCE = 0.01

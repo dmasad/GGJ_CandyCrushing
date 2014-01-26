@@ -64,7 +64,7 @@ class SplashScreen(Menu):
     def __init__(self, screen, image_path, on_key=None):
         self.screen = screen
         self.on_key = on_key
-        self.image = image.load(image_path).convert()
+        self.image = image.load(image_path).convert_alpha()
         self.image = transform.smoothscale(self.image, (1200,800))
 
     def display(self):
