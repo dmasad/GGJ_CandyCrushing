@@ -13,7 +13,7 @@ import sys
 from pygame import *
 
 import Candy
-from menu import Menu
+from menu import *
 
 class Game(object):
     '''
@@ -98,37 +98,19 @@ class Game(object):
         if len(self.game_objects) < 2:
             if not self.endgame:
                 # Game loss condition
-                message = ["Oh no, there aren't enough candies", 
-                        "left to breed!",
-                        "",
-                        "How will you get enough jam now?",
-                        "        You lose!"]
+                path = "graphics/splashes/loss1.png"
             else:
                 # Game ending 1
-                message = ["Good work, Herder!",
-                            "You win!",
-                            "Now, we aren't gonna",
-                            "need your services anymore, so..."]
-            menu = Menu(self.screen, text=message, on_key=lambda: sys.exit(0))
+                path = "graphics/splashes/end1.png"
+            menu = SplashScreen(self.screen, path, on_key=lambda: sys.exit(0))
             menu.menu_loop()
 
         if len(self.game_objects) > self.MAX_CANDIES:
             if not self.endgame:
-                message = [ "The candy herd's out of control!",
-                            "Aren't you supposed to be",
-                            "crushing them into jam?",
-                            "",
-                            "    You lose!"
-                            ]
+                path = "graphics/splashes/loss2.png"
             else:
-                message = ["What?!",
-                            "You were supposed to", 
-                            "liquidate them!",
-                            "Instead you've let them",
-                            "break loose!"
-                            ]
-
-            menu = Menu(self.screen, text=message, on_key=lambda: sys.exit(0))
+                path = "graphics/splashes/end2.png"
+            menu = SplashScreen(self.screen, path, on_key=lambda: sys.exit(0))
             menu.menu_loop()
 
         if rnd.random() < self.spawn_prob:
@@ -187,7 +169,7 @@ class Scorekeeper(object):
             if self.level < len(self.LEVEL_MAX):
                 self.max_jam = self.LEVEL_MAX[self.level]
                 self.current_jam = 0
-                self.game.spawn_prob *= 2
+                self.game.spawn_prob *= 1.5
             elif not self.game.endgame: # End game scenario
                 message = ["Good job, Candy Herder!",
                             "Now we're gonna need you",
