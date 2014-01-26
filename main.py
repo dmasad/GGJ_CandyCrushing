@@ -22,18 +22,6 @@ MAIN GAME LOOP
 
 '''
 
-def menu_loop(menu):
-
-    # draw and display menu
-    screen.blit(menu.display(), (0,0))
-    display.flip()
-
-    for ev in event.get():
-        if ev.type == QUIT:
-            return False ##### THIS WON'T QUIT #####
-        if ev.type == KEYDOWN:
-            return False
-    return True
 
 def game_loop(game):
     '''
@@ -94,7 +82,7 @@ if __name__ == "__main__":
     
     # Create things you want in the global scope
     game = Game()
-    screen = display.set_mode(game.DISPLAY_SIZE)
+    screen = display.set_mode((game.DISPLAY_SIZE[0] + 100, game.DISPLAY_SIZE[1]))
     background = Surface(game.DISPLAY_SIZE, SRCALPHA)
     background.fill(game.BACKGROUND_COLOR)
     display.set_caption(game.GAME_TITLE)

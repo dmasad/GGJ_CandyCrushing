@@ -15,7 +15,7 @@ class Game(object):
         '''
 
         # Game constants
-        self.DISPLAY_SIZE = (1200,800)
+        self.DISPLAY_SIZE = (1100,800)
         #self.BACKGROUND_COLOR = (10, 200, 10) # Green
         self.BACKGROUND_COLOR = (180, 180, 180) # Gray
 
