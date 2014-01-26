@@ -20,7 +20,8 @@ class Game(object):
         self.BACKGROUND_COLOR = (180, 180, 180) # Gray
 
         self.GAME_TITLE = "Crushing Candy Into Jam"
-        self.NUM_CANDIES = 10
+        self.START_CANDIES = 10
+        self.MAX_CANDIES = 60
         self.MUTATE_CHANCE = 0.01
         self.CELL_SIZE = 60 # pixels that a cell is wide and tall (assuming square cells)
         self.SOUNDTRACK = "audio/348504_Riding_on_the_edge_.mp3"
@@ -29,7 +30,7 @@ class Game(object):
         self.max_id = 0
         self.scorekeeper = Scorekeeper()
 
-        self.spawn_prob = 1.0/60
+        self.spawn_prob = 1.0/(60*2)
 
     def initialize(self):
         '''
@@ -48,7 +49,7 @@ class Game(object):
             for filename in Candy.SOUNDS_DICT[attribute]:
                 Candy.SOUNDS_DICT[attribute][filename] = mixer.Sound(filename)
         
-        for ident in range(self.NUM_CANDIES):
+        for ident in range(self.START_CANDIES):
             self.game_objects[ident] = self.spawn(ident, initial=True)
             self.max_id += 1
 
@@ -78,10 +79,17 @@ class Game(object):
         '''
         Check to see whether to spawn a new candy
         '''
+        if len(self.game_objects) < 2:
+            print "Oh no, your candies can't breed! You lose!"
+            self.spawn(self.max_id)
+        if len(self.game_objects) > self.MAX_CANDIES:
+            print "You can't support so many candies! You lose!"
+            raise Exception
+
         if rnd.random() < self.spawn_prob:
             self.max_id += 1
             new = self.spawn(self.max_id)
-            print "Spawning"
+            #print "Spawning"
             self.game_objects[self.max_id] = new
 
     def spawn(self, ident, initial=False):
@@ -98,6 +106,8 @@ class Game(object):
                 # (also problem if less than 2 candies)
             genome = Candy.getBabyGenome(parent1, parent2)
         return Candy.Candy(genome, grid_spot, ident, self)
+
+
 
 
 class Scorekeeper(object):
