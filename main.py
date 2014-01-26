@@ -4,6 +4,8 @@ Crushing candy into jam
 
 '''
 
+# import pygame._view ## Necessary to make an exe with this?
+
 import random as rnd
 import sys
 
