@@ -50,3 +50,31 @@ class Menu(object):
         return base_img
     
 
+class SplashScreen(Menu):
+    '''
+    Splash screen; like a menu, but displays a graphic instead of text
+    '''
+
+    def __init__(self, screen, image_path, on_key=None):
+        self.screen = screen
+        self.on_key = on_key
+        self.image = image.load(image_path).convert()
+        self.image = transform.smoothscale(self.image, (1200,800))
+
+    def display(self):
+        return self.image
+
+    def menu_loop(self):
+        self.screen.blit(self.display(), (0, 0))
+        display.flip()
+
+        while True:
+            for ev in event.get():
+                if ev.type == QUIT:
+                    sys.exit(0)
+                if ev.type == KEYDOWN:
+                    if self.on_key == None:
+                        return
+                    else:
+                        self.on_key()
+
