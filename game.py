@@ -40,6 +40,10 @@ class Game(object):
         except:
             print "Music-related error"
 
+        # stick sounds in SOUNDS_DICT
+        for attribute in Candy.SOUNDS_DICT:
+            for filename in Candy.SOUNDS_DICT[attribute]:
+                Candy.SOUNDS_DICT[attribute][filename] = mixer.Sound(filename)
         
         for ident in range(self.NUM_CANDIES):
             self.game_objects[ident] = self.spawn(ident, initial=True)

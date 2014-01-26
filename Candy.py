@@ -201,7 +201,10 @@ class Candy(object):
     def check_click(self, mouse_pos):
         if self.check_collision(mouse_pos):
             print "Mouse clicked on", self.ident
-            ##### DO DEATH SOUND AND SQUISH SOUND ##########
+            # do death and squish sounds simultaneously
+            for sound_type in SOUNDS_DICT:
+                SOUNDS_DICT[sound_type][self.genome[sound_type]].play()
+                print self.genome[sound_type] ####
             self.alive = False
             self.game.scorekeeper.add_jam()
 
