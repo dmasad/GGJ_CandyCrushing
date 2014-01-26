@@ -158,7 +158,7 @@ class Scorekeeper(object):
         self.game = game
         self.current_jam = 0
         self.level = 0
-        self.LEVEL_MAX = [1, 5 ]#10, 20, 50] # Target jams per level
+        self.LEVEL_MAX = [1, 5, 10, 20, 50] # Target jams per level
         self.max_jam = self.LEVEL_MAX[self.level]
 
         # Load image assets
