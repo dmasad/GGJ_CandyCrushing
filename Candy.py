@@ -130,9 +130,30 @@ class Candy(object):
         x_vel = self.speed*math.sin(self.direction)
         y_vel = self.speed*math.cos(self.direction)
         self.velocity = (x_vel, y_vel)
-        
-    def update_and_get_status(self): # This will handle ongoing animations
+    
 
+    def move_random(self, mouse_coords):
+        '''
+        Move around randomly
+        '''
+        rect_list = [obj.get_rect() for obj in self.game.game_objects.values() if obj is not self]
+        # Try changing directions 8 times
+        for i in range(8):
+            new_x = (self.position[0] + self.velocity[0])
+            new_y = (self.position[1] + self.velocity[1])
+            cell_size = self.game.CELL_SIZE
+            r = Rect(new_x, new_y, cell_size, cell_size)
+            i = r.collidelist(rect_list)
+            on_screen = 0 < new_x < (self.game.DISPLAY_SIZE[0]-cell_size) and 0 < new_y < (self.game.DISPLAY_SIZE[1]-cell_size)
+            if i == -1 and on_screen: # no collision
+                self.position = (new_x, new_y)
+                return
+            else:
+                self.change_direction()
+
+    def update_and_get_status(self): # This will handle ongoing animations
+        self.move_random(None)
+        '''
         for i in range(10):
         
             # check if collision
@@ -157,7 +178,7 @@ class Candy(object):
         new_x = (self.position[0] + self.velocity[0])
         new_y = (self.position[1] + self.velocity[1])
         self.position = (new_x, new_y)
-
+        '''
 
         # check if alive and return status        
         if self.alive == False:
