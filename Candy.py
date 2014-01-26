@@ -47,6 +47,9 @@ ATTRIBUTES = {"body": "graphics",
               "fear": "behavior",
               "death": "sound",
               "squish": "sound"}
+GRAPHICS_DICT = {}
+SOUNDS_DICT = {}
+BEHAVIORS_DICT = {}
 
 # Populate:
 for attribute in ATTRIBUTES:
