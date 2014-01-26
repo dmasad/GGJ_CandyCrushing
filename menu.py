@@ -8,6 +8,7 @@ from pygame import *
 class Menu(object):
     def __init__(self, text = "paused"):
         self.text = text
+        self.font = font.SysFont("monospace", 24)
 
     def display(self):
         base_img = Surface((600,600))
