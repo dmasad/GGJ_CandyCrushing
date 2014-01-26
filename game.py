@@ -1,3 +1,12 @@
+'''
+GGJ GMU 2014, Candy Herder / Crushing Candy into Jam Team
+Nathan McClain
+Brendon Fuhs
+David Masad
+
+
+'''
+
 import random as rnd
 import sys
 

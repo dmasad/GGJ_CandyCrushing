@@ -2,6 +2,12 @@
 
 menu class
 
+GGJ GMU 2014, Candy Herder / Crushing Candy into Jam Team
+Nathan McClain
+Brendon Fuhs
+David Masad
+
+
 '''
 from pygame import *
 import sys

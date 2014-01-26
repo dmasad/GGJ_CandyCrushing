@@ -1,7 +1,11 @@
 '''
 Candy object and related methods
 
-GGJ GMU 2014, Crushing Candy into Jam Team
+GGJ GMU 2014, Candy Herder / Crushing Candy into Jam Team
+Nathan McClain
+Brendon Fuhs
+David Masad
+
 
 '''
 
