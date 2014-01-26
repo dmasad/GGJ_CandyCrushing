@@ -40,31 +40,38 @@ for attribute in ATTRIBUTES:
 '''
 
 ATTRIBUTE_TYPES = ["body", "sound", "behavior"]
-ATTRIBUTES = {}
-ATTRIBUTES["body"] = ["body", "eyes", "mouth"]
-ATTRIBUTES["behavior"] = ["speed", "fear"]
-ATTRIBUTES["sound"] = ["death", "squish"]
+ATTRIBUTES = {"body": "graphics",
+              "eyes": "graphics",
+              "mouth": "graphics",
+              "speed": "behavior",
+              "fear": "behavior",
+              "death": "sound",
+              "squish": "sound"}
 
-GRAPHICS_DICT = {} # body attribute name : attribute value: graphical object
-SOUNDS_DICT = {}   # sound attribute name: sound object
-BEHAVIORS_DICT = {} # behavior attribute name: attribute value
 # Populate:
-for attribute in ATTRIBUTES["body"]:
-    GRAPHICS_DICT[attribute] = {}
-    path = "graphics/" + attribute + "/"
-    for f in os.listdir(path):
-        if f[-3:] == "png": 
-            i = int(f[0])
-            img = image.load(path + f)
-            GRAPHICS_DICT[attribute][i] = img
-
+for attribute in ATTRIBUTES:
+    if ATTRIBUTES["attribute"] = "graphics":
+        GRAPHICS_DICT[attribute] = {} # attribute : value : image
+        path = "graphics/" + attribute + "/"
+        for f in os.listdir(path):
+            if f[-3:] == "png": 
+                i = int(f[0])
+                img = image.load(path + f)
+                GRAPHICS_DICT[attribute][i] = img
+    if ATTRIBUTES["attribute"] = "behavior":
+        pass
+    if ATTRIBUTES["attribute"] = "sound":
+        SOUNDS_DICT["attribute"] = {}
+        path = "audio/" + attribute + "/"
+        for f in os.listdir(path):
+            if f[-3:] == "mp3": 
+                i = int(f[0])
+                filename = path + f
+                SOUNDS_DICT["attribute"][filename] = [] #### POPULATE AUDIO OBJ LATER
+                
 BEHAVIORS_DICT["fear"] = ["friendly", "indifferent", "scared"]
 BEHAVIORS_DICT["speed"] = [1, 2, 4]
-
-for sound_type in ATTRIBUTES["sound"]:
-    SOUNDS_DICT[sound_type] = {}
-    for sound in range(4): ## Assuming 4 sounds per sound type
-        SOUNDS_DICT[sound][0] = [] #### WILL NEED TO POPULATE ELSEWHERE
+    
 
 
 class Candy(object):
@@ -170,6 +177,7 @@ class Candy(object):
     def check_click(self, mouse_pos):
         if self.check_collision(mouse_pos):
             print "Mouse clicked on", self.ident
+            ##### DO DEATH SOUND AND SQUISH SOUND ##########
             self.alive = False
             self.game.scorekeeper.add_jam()
 
