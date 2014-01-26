@@ -33,7 +33,7 @@ class Game(object):
         self.max_id = 0
         self.scorekeeper = Scorekeeper(self)
 
-        self.spawn_prob = 1.0/(60*2)
+        self.spawn_prob = 1.0/(60*3)
         self.endgame = False # End-game
 
         self.spatter_list = []
@@ -178,6 +178,7 @@ class Scorekeeper(object):
             if self.level < len(self.LEVEL_MAX):
                 self.max_jam = self.LEVEL_MAX[self.level]
                 self.current_jam = 0
+                self.game.spawn_prob *= 2
             elif not self.game.endgame: # End game scenario
                 message = ["Good job, Candy Herder!",
                             "Now we're gonna need you",
@@ -189,6 +190,7 @@ class Scorekeeper(object):
                 menu = Menu(self.game.screen, text=message)
                 menu.menu_loop()
                 self.game.endgame = True
+                self.game.spawn_prob = (1.0/120)
 
 
 
@@ -202,7 +204,7 @@ class Scorekeeper(object):
             img = img.convert()
             base_img.blit(img, (10, start_y - i*50))
 
-        score_text = str(self.current_jam) + " / " + str(self.max_jam)
+        score_text = str(self.current_jam) + "/" + str(self.max_jam)
         score = self.font.render(score_text, 1, (255,255,0))
         base_img.blit(score, (10, 100))
         return base_img

@@ -13,31 +13,7 @@ import math
 # Setting up some genome stuff
 # ============================
 
-MUTATE_CHANCE = 0.25
-## ORDER THESE IN DRAW ORDER (back-to-front)
-'''
-ATTRIBUTES = ["eyebrows",
-              "eyes",
-              "mouth",
-              "nose", #?
-              "color",
-              "sparkles",
-              "shape",
-              "noise",
-              "speed",
-              "flee"]
-
-GRAPHICS_DICT = {}
-
-# attribute name : attribute value: graphical object
-####### Placeholder #######:
-for attribute in ATTRIBUTES:
-    GRAPHICS_DICT[attribute] = {
-        0: "imagetest/images/face.png", 
-        1: "imagetest/images/face.png"
-        }
-
-'''
+MUTATE_CHANCE = 0.15
 
 ATTRIBUTE_TYPES = ["body", "sound", "behavior"]
 ATTRIBUTES = {"body": "graphics",
@@ -280,8 +256,10 @@ class Spatter(object):
         self.position = position
         self.ticks_left = 60
         self.alive= True
-        img_list = ["graphics/spatter/squish.png","graphics/spatter/splat.png"]
-        self.img = image.load(rnd.choice(img_list)).convert()
+        img_list = ["graphics/spatter/purple-goo.png",
+                    "graphics/spatter/green-goo.png",
+                    "graphics/spatter/blue-goo.png"]
+        self.img = image.load(rnd.choice(img_list)).convert_alpha()
     def blit(self, screen):
         screen.blit(self.img, self.position)
     def update_status(self):
